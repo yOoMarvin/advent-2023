@@ -1,16 +1,19 @@
 "use client";
-import { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const ShowMore = ({ content, maxChar }) => {
   const [expanded, setExpanded] = useState(false);
+  const [scrollHeight, setScrollHeight] = useState(0);
   const contentRef = useRef(null);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setScrollHeight(contentRef.current.scrollHeight);
+    }
+  }, [content]);
 
   const toggleExpanded = () => {
     setExpanded(!expanded);
-  };
-
-  const logScrollHeight = () => {
-    console.log(contentRef.current.scrollHeight);
   };
 
   return (
@@ -26,7 +29,7 @@ const ShowMore = ({ content, maxChar }) => {
           className="transition__base mt-4 rounded-md bg-blue-100 px-3 py-2 font-medium text-blue-600 shadow-sm hover:bg-blue-200 hover:text-blue-700"
           onClick={() => {
             toggleExpanded();
-            logScrollHeight();
+            console.log(scrollHeight);
           }}
         >
           {expanded ? "Show Less" : "Show More"}
