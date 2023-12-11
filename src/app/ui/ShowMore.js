@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useRef, useEffect } from "react";
 
 const ShowMore = ({ content, maxChar }) => {
@@ -24,17 +25,18 @@ const ShowMore = ({ content, maxChar }) => {
       ref={contentRef}
     >
       <p>{expanded ? content : content.slice(0, maxChar) + " ..."}</p>
-      {content.length > maxChar && (
-        <button
-          className="transition__base mt-4 rounded-md bg-blue-100 px-3 py-2 font-medium text-blue-600 shadow-sm hover:bg-blue-200 hover:text-blue-700"
-          onClick={() => {
-            toggleExpanded();
-            console.log(scrollHeight);
-          }}
-        >
-          {expanded ? "Show Less" : "Show More"}
-        </button>
-      )}
+      {content.length > maxChar &&
+        scrollHeight > 10 && ( // Added scrollHeight condition
+          <button
+            className="transition__base mt-4 rounded-md bg-blue-100 px-3 py-2 font-medium text-blue-600 shadow-sm hover:bg-blue-200 hover:text-blue-700"
+            onClick={() => {
+              toggleExpanded();
+              console.log(scrollHeight);
+            }}
+          >
+            {expanded ? "Show Less" : "Show More"}
+          </button>
+        )}
     </div>
   );
 };
