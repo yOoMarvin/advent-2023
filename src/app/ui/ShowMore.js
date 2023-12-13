@@ -13,6 +13,20 @@ const ShowMore = ({ content, maxChar }) => {
     }
   }, [content]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (contentRef.current) {
+        setScrollHeight(contentRef.current.scrollHeight);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const toggleExpanded = () => {
     setExpanded(!expanded);
   };
@@ -25,18 +39,17 @@ const ShowMore = ({ content, maxChar }) => {
       ref={contentRef}
     >
       <p>{expanded ? content : content.slice(0, maxChar) + " ..."}</p>
-      {content.length > maxChar &&
-        scrollHeight > 10 && ( // Added scrollHeight condition
-          <button
-            className="transition__base mt-4 rounded-md bg-blue-100 px-3 py-2 font-medium text-blue-600 shadow-sm hover:bg-blue-200 hover:text-blue-700"
-            onClick={() => {
-              toggleExpanded();
-              console.log(scrollHeight);
-            }}
-          >
-            {expanded ? "Show Less" : "Show More"}
-          </button>
-        )}
+      {content.length > maxChar && scrollHeight > 100 && (
+        <button
+          className="transition__base mt-4 rounded-md bg-blue-100 px-3 py-2 font-medium text-blue-600 shadow-sm hover:bg-blue-200 hover:text-blue-700"
+          onClick={() => {
+            toggleExpanded();
+            console.log(scrollHeight);
+          }}
+        >
+          {expanded ? "Show Less" : "Show More"}
+        </button>
+      )}
     </div>
   );
 };
