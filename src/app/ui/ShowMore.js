@@ -8,24 +8,26 @@ const ShowMore = ({ content, maxChar }) => {
   const contentRef = useRef(null);
 
   useEffect(() => {
-    if (contentRef.current) {
-      setScrollHeight(contentRef.current.scrollHeight);
-    }
-  }, [content]);
-
-  useEffect(() => {
     const handleResize = () => {
       if (contentRef.current) {
         setScrollHeight(contentRef.current.scrollHeight);
       }
     };
 
+    // Attach the resize event listener
     window.addEventListener("resize", handleResize);
 
+    // Cleanup function to remove the resize event listener
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setScrollHeight(contentRef.current.scrollHeight);
+    }
+  }, [content]);
 
   const toggleExpanded = () => {
     setExpanded(!expanded);
